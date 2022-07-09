@@ -1,19 +1,35 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Appearance, useColorScheme } from 'react-native';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native'
+import { createNativeStackNavigator, } from '@react-navigation/native-stack';
+import Screens from './Screens';
+import MovieScreen from './screens/MovieScreen';
+
+const Stack = createNativeStackNavigator();
+
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#fa2431',
+  },
+};
 
 export default function App() {
+  const scheme = useColorScheme();
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer theme={scheme === 'dark' ? DarkTheme : MyTheme}>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={Screens} options={{ headerShown: false }} />
+        <Stack.Screen name="movie-page" component={MovieScreen} options={{ headerShown: false }} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
     alignItems: 'center',
     justifyContent: 'center',
   },
